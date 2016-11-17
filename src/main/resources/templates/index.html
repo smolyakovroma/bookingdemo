@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Hotel Booking App</title>
+    <link th:if="${mode=='dev'}" rel="stylesheet" href="../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
+    <link th:if="${mode=='prod'}" rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+    <script type="text/javascript" src="/static/css/angular.js" th:src="@{/css/angular.js}"></script>
+    <script type="text/javascript" src="/static/css/app/app.module.js" th:src="@{/css/app/app.module.js}"></script>
+    <script type="text/javascript" src="/static/css/app/bookings.controller.js" th:src="@{/css/app/bookings.controller.js}"></script>
+</head>
+
+<body ng-app="app" ng-controller="BookingController as vm">
+<div class="container">
+    <div class="raw">
+        <button type="button" class="btn btn-info" th:text="${user}">HELLO USER</button>
+        <br/>
+    </div>
+    <p th:text="'Page was create '+${#dates.format(datetime, 'dd MMMM yyyy')}">No text</p>
+</div>
+
+<div>
+    <div class="row">
+        <div class="col-lg-offset-2 col-lg-8">
+            <!-- Get all bookings or only affordable ones -->
+            <div class="btn-group" role="group">
+                <button ng-click="vm.getAll()" type="button" class="btn btn-default">All</button>
+                <button ng-click="vm.getAffordable()" type="button" class="btn btn-default">Less than 100$</button>
+            </div>
+
+            <!-- Display bookings in a table -->
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Hotel</th>
+                    <th>Nights</th>
+                    <th>Price/Night</th>
+                    <th>Total Price</th>
+                    <th style="width: 90px"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="booking in vm.bookings">
+                    <td>{{booking.hotelName}}</td>
+                    <td>{{booking.nbOfNights}}</td>
+                    <td>{{booking.pricePerNight}}</td>
+                    <td>{{booking.totalPrice}}</td>
+                    <td>
+                        <button class="btn btn-danger" ng-click="vm.deleteBooking(booking.id)">Delete</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
